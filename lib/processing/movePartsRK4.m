@@ -6,9 +6,9 @@ function Particles = movePartsRK4(velocities,WindFile,Particles,ModelConfig,...
 % Compute velocities for the current time_step plus half time_step
 U_half = velocities.Uts1 + (velocities.Uts2-velocities.Uts1)/2;
 V_half = velocities.Vts1 + (velocities.Vts2-velocities.Vts1)/2;
-for HeightLayer = 1 : length(spillLocation.Heights_m)
+for HeightLayer = 1 : spillLocation.n_Heights
   % Get position1 of particles to move
-  height_ind = find(Particles.Status == 1 & Particles.Height == HeightLayer);
+  height_ind = find(Particles.Height == spillLocation.Heights(HeightLayer));
   position1lat = Particles.Lat(height_ind);
   position1lon = Particles.Lon(height_ind);
   
@@ -21,7 +21,8 @@ for HeightLayer = 1 : length(spillLocation.Heights_m)
   position2lon = position1lon + ((LagrTimeStep.InSec_half*Upart1)*Dcomp.cst).*cosd(position1lat);
   
   % Check for particles outside the domain
-  outDom_Idx = ...
+  %{
+    outDom_Idx = ...
     position2lon < ModelConfig.domainLimits(1) | position2lon > ModelConfig.domainLimits(2) |...
     position2lat < ModelConfig.domainLimits(3) | position2lat > ModelConfig.domainLimits(4);
   if any(outDom_Idx)
@@ -34,6 +35,7 @@ for HeightLayer = 1 : length(spillLocation.Heights_m)
     Vpart1(outDom_Idx) = [];
     height_ind(outDom_Idx) = [];
   end
+  %}
   
   % Interpolate U and V to position2 using velocities at DT + DT/2 (U_half, V_half)
   Upart2 = interp2(WindFile.Ulon, WindFile.Ulat, U_half(:,:,HeightLayer), position2lon, position2lat);
@@ -44,7 +46,8 @@ for HeightLayer = 1 : length(spillLocation.Heights_m)
   position3lon = position1lon + ((LagrTimeStep.InSec_half*Upart2)*Dcomp.cst).*cosd(position1lat);
   
   % Check for particles outside the domain
-  outDom_Idx =...
+  %{
+    outDom_Idx =...
     position3lon < ModelConfig.domainLimits(1) | position3lon > ModelConfig.domainLimits(2) |...
     position3lat < ModelConfig.domainLimits(3) | position3lat > ModelConfig.domainLimits(4);
   if any(outDom_Idx)
@@ -59,7 +62,7 @@ for HeightLayer = 1 : length(spillLocation.Heights_m)
     Vpart1(outDom_Idx) = [];
     height_ind(outDom_Idx) = [];
   end
-  
+  %}
   % Interpolate U and V to position3 using velocities at DT + DT/2 (U_half, V_half)
   Upart3 = interp2(WindFile.Ulon, WindFile.Ulat, U_half(:,:,HeightLayer), position3lon, position3lat);
   Vpart3 = interp2(WindFile.Ulon, WindFile.Ulat, V_half(:,:,HeightLayer), position3lon, position3lat);

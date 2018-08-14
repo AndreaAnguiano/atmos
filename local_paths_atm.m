@@ -1,4 +1,5 @@
 % Input directories
-addpath('/home/andrea/Datos/');
-addpath('/home/andrea/Datos/Datos_reanalisis/');
-addpath(genpath('/home/andrea/matlab/atmos/lib/'))
+addpath('/home/andrea/Data/Datos_reanalisis/');
+addpath('/home/andrea/matlabcode/atmos/data/');
+
+addpath(genpath('/home/andrea/matlabcode/atmos/lib/'))

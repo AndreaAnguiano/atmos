@@ -24,7 +24,7 @@ day_DoM = day(date_time, 'dayofmonth');
     firstFileName3H = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];
     coordFileName = [WindFile.CoorPrefix,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];
     
-    if ismember(10, spillLocation.Heights_m)
+    if ismember(10, spillLocation.Heights)
         firstFileName1H = [WindFile.Prefix1h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];        
         U10lat = double(ncread(coordFileName,'XLAT'));
         U10lon = double(ncread(coordFileName,'XLONG'));

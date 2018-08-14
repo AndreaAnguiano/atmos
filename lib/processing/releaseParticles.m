@@ -30,7 +30,7 @@ for height_cicle = 1 : spillLocation.n_Heights
         spillLocation.Radius_degLat(height_cicle);
         NewLons(height_cicle, Part_indx) = spillLocation.Lon + randn(1) .*...
         spillLocation.Radius_degLon(height_cicle);
-        NewHeights(height_cicle, Part_indx) = height_cicle;
+        NewHeights(height_cicle, Part_indx) = spillLocation.Heights(height_cicle);
 end
 Particles.Status  = NewStatus;
 Particles.Lat   = NewLats;

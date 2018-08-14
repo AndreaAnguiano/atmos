@@ -12,7 +12,7 @@ day_DoM = day(date_time, 'dayofmonth');
     % Wind file names and varible names
     WindFile.Prefix3h = 'wrfout_c3h_d01_';
     WindFile.Prefix1h = 'wrfout_c1h_d01_';
-    WindFile.Sufix = strcat('_00_00_00.',year_str, '.nc');
+    WindFile.Sufix = strcat('_00:00:00.',year_str, '.nc');
     WindFile.Uname = 'U';
     WindFile.Vname = 'V';
     WindFile.Wname = 'W';
@@ -22,7 +22,7 @@ day_DoM = day(date_time, 'dayofmonth');
     
     % Define variables
     firstFileName3H = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];
-    coordFileName = [WindFile.CoorPrefix,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];
+    coordFileName =  'wrfout_c15d_d01_2010-01-01_00_00_00.2010.nc';
     
     if ismember(10, spillLocation.Heights)
         firstFileName1H = [WindFile.Prefix1h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];        

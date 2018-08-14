@@ -8,7 +8,7 @@ ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/';
 % Spill timing (yyyy,mm,dd)
 spillTiming.startDay_date     = [2010,01,01]; % [2010,04,22]
 spillTiming.lastSpillDay_date = [2010,01,05]; % [2010,07,14]
-spillTiming.endSimDay_date    = [2010,01,03]; % [2010,07,30]
+spillTiming.endSimDay_date    = [2010,01,05]; % [2010,07,30]
 
 % Spill location 
 spillLocation.Lat      =  28.738; %  28.738

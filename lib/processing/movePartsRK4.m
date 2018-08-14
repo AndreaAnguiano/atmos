@@ -99,8 +99,8 @@ for HeightLayer = 1 : spillLocation.n_Heights
   VpartF = (Vpart1 + 2*Vpart2 + 2*Vpart3 + Vpart4)/6;
   
   % Add turbulent-diffusion
-  Uturb = UpartF .* (-ModelConfig.TurbDiff_b + (2*ModelConfig.TurbDiff_b) .* rand(length(UpartF),1));
-  Vturb = VpartF .* (-ModelConfig.TurbDiff_b + (2*ModelConfig.TurbDiff_b) .* rand(length(VpartF),1));
+  Uturb = UpartF .* (-ModelConfig.TurbDiff_a + (2*ModelConfig.TurbDiff_a) .* rand(length(UpartF),1));
+  Vturb = VpartF .* (-ModelConfig.TurbDiff_a + (2*ModelConfig.TurbDiff_a) .* rand(length(VpartF),1));
   UpartF = UpartF + Uturb;
   VpartF = VpartF + Vturb;
   

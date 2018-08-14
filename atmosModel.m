@@ -55,6 +55,7 @@ LagrTimeStep.PerDay      = 24/LagrTimeStep.InHrs;
 LagrTimeStep.TOTAL       = LagrTimeStep.PerDay*spillTiming.simulationDays;
 LagrTimeStep.BTW_windsTS = LagrTimeStep.InHrs/WindFile.timeStep_hrs;
 
+ModelConfig.TurbDiff_a  = ModelConfig.TurbDiff_b./sqrt(LagrTimeStep.InHrs);
 %----------------------------- Visualization -----------------------------%
 
 

@@ -1,5 +1,5 @@
-path = '/home/andrea/matlabcode/outputsAtm/newtest/test7/Data/';
-file = '2010-01-01_h_12_Pos2.mat';
+path = '/home/andrea/matlabcode/outputsAtm/prueba10/Data/';
+file = '2010-01-01_h_12_P1.mat';
 histogram = load(strcat(path,file));
 boundaries = [18 -98 31 -80];
 Heights = [ 1500, 1000, 500, 100, 10];

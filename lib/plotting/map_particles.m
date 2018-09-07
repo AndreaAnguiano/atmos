@@ -124,10 +124,7 @@ if vis_maps.twoDim
         ensemble_grid.count(lat_idx,lon_idx,depth_cicle) = ...
           nansum([ensemble_grid.count(lat_idx,lon_idx,depth_cicle);1]);      
     end
-    if saving.Ensembles_on && ...
-        (ismember(ts-1, saving.Ensembles_ts) || first_time)
-       save(strcat(outputFolder.Main,'MapsImage/',dateHour_str), 'ensemble_grid')
-    end
+ 
         % Plot spill location
     plot(spillLocation.Lon,spillLocation.Lat,'s','color',vis_maps.colors_SpillLocation,...
       'MarkerSize',vis_maps.markerSize)

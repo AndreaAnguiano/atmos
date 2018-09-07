@@ -29,15 +29,17 @@ ModelConfig.years = years;
 ModelConfig.n_years = length(ModelConfig.years);
 
 %---------paths------------------
-addpath(genpath(codePath))
+addpath(genpath(codePath));
 addpath(genpath(dataPath));
 
 ensemble = 0;
 LagrTimeStep.InHrs = modelTimeStep;
 WindFile.timeStep_hrs = windFileTS;
 datetemp = datenum(spillTiming.startDay_date);
+
     for year = 1:ModelConfig.n_years
-        while datetemp < datenum([ModelConfig.years(year),01,30])
+        strtemp = 1;
+        while datetemp < datenum([ModelConfig.years(year),01,03])
             vecdate = datevec(datetemp);
             spillTiming.startDay_date = [vecdate(1),vecdate(2),vecdate(3)];
             spillTiming.lastSpillDay_date = [vecdate(1),vecdate(2),vecdate(3)+1];
@@ -45,28 +47,28 @@ datetemp = datenum(spillTiming.startDay_date);
             spillLocation.Lat = spillLocation.positions(1,2);
             spillLocation.Lon = -spillLocation.positions(1);
             spillLocation.Point = 1;
-            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
+            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
             spillLocation.Lat = spillLocation.positions(2,2);
             spillLocation.Lon = -spillLocation.positions(2);
             spillLocation.Point = 2;
-            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
+            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
             spillLocation.Lat = spillLocation.positions(3,2);
             spillLocation.Lon = -spillLocation.positions(3);
             spillLocation.Point = 3;
-            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
+            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
             spillLocation.Lat = spillLocation.positions(4,2);
             spillLocation.Lon = -spillLocation.positions(4);
             spillLocation.Point = 4;
-            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
+            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
             spillLocation.Lat = spillLocation.positions(5,2);
             spillLocation.Lon = -spillLocation.positions(5);
             spillLocation.Point = 5;
-            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
+            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
             spillLocation.Lat = spillLocation.positions(6,2);
             spillLocation.Lon = -spillLocation.positions(6);
             spillLocation.Point = 6;
-            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
-            
+            atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
+            strtemp = strtemp + 1;
             datetemp = datetemp +1;
         end 
         spillTiming.startDay_date = [spillTiming.startDay_date(1)+1,spillTiming.startDay_date(2),spillTiming.startDay_date(3)];

@@ -22,7 +22,7 @@ endDate = [2010,01,01]; %
 years = [2010]
 dataPath = '/home/andrea/Data/Datos_reanalisis/';
 codePath = '/home/andrea/matlabcode/atmos/';
-outputPath = '/home/andrea/matlabcode/outputsAtm/newtest/test8/';
+outputPath = '/home/andrea/matlabcode/outputsAtm/newtest/test10/';
 saveFigTimeStep =  [4,8,12,18,24,48];
 modelTimeStep = 1;
 domainLimits =  [-98,-80, 18, 31];
@@ -81,8 +81,8 @@ saving.Data_step_hr              = [4,8,12,18,24,48];
 saving.MapsImage_on              = 0;
 saving.MapsImage_quality         = '-r100'; % Resolution in dpi
 saving.MapsImage_step_hr         = 0;
-saving.Ensembles_on              = 0;
-saving.Ensembles_ts              = [4,8,12,18];
+saving.Ensembles_on              = 1;
+saving.Ensembles_ts              = [0,4,8,12,18];
 individualSpill= 0;
 
 tic

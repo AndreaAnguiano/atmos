@@ -1,4 +1,4 @@
-function atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill)
+function atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving, individualSpill,strtemp)
 
 %------------------------- Create output folders -
 outputFolder = mkOutputDir(ModelConfig,saving);
@@ -105,9 +105,9 @@ for SerialDay = spillTiming.startDay_serial:spillTiming.endSimDay_serial
     end
     %------------------------ Save particles data ------------------------%
     
-    if saving.Data_on && ismember(ts-1, saving.Ensembles_ts)
+    if saving.Ensembles_on && ismember(ts-1, saving.Ensembles_ts)
       file_name = strrep(dateHour_str,' ','_');
-      save([outputFolder.Data,file_name,'_','P',num2str(spillLocation.Point)],'ensemble_grid')
+      save([outputFolder.Data,file_name,'_','P',num2str(spillLocation.Point),'_',num2str(strtemp)],'ensemble_grid')
     
     end
     %}

@@ -3,7 +3,7 @@ close all; clear; clc; format compact; clc
 ModelConfig.LocalPaths = 'local_paths_atm.m';
 
 % Output directorie 
-ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/prueba9/';
+ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/prueba11/';
 
 % Spill timing (yyyy,mm,dd)
 spillTiming.startDay_date     = [2010,01,01]; % [2010,04,22]
@@ -16,6 +16,7 @@ spillLocation.Lon      = -95.0162288; % -88.366
 spillLocation.Heights  = [ 1500, 1000, 500, 100, 10];
 spillLocation.Radius_m = [ 250, 500, 500, 1000, 1000]; % 2 STD for random initialization of particles
 spillLocation.n_Heights   = length(spillLocation.Heights);
+spillLocation.Point = 1;
 % Model domain
 ModelConfig.domainLimits = [-98,-80, 18, 31]; % [-88.6, -88.2, 28.71, 28.765]
 

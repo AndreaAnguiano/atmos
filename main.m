@@ -3,21 +3,21 @@ close all; clear; clc; format compact; clc
 ModelConfig.LocalPaths = 'local_paths_atm.m';
 
 % Output directorie 
-ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/';
+ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/prueba9/';
 
 % Spill timing (yyyy,mm,dd)
 spillTiming.startDay_date     = [2010,01,01]; % [2010,04,22]
-spillTiming.lastSpillDay_date = [2010,01,05]; % [2010,07,14]
-spillTiming.endSimDay_date    = [2010,01,05]; % [2010,07,30]
+spillTiming.lastSpillDay_date = [2010,01,30]; % [2010,07,14]
+spillTiming.endSimDay_date    = [2010,01,30]; % [2010,07,30]
 
 % Spill location 
-spillLocation.Lat      =  28.738; %  28.738
-spillLocation.Lon      = -88.366; % -88.366
+spillLocation.Lat      = 	25.97096444; %  28.738
+spillLocation.Lon      = -95.0162288; % -88.366
 spillLocation.Heights  = [ 1500, 1000, 500, 100, 10];
-spillLocation.Radius_m = [ 250, 500, 750, 1000, 1250]; % 2 STD for random initialization of particles
+spillLocation.Radius_m = [ 250, 500, 500, 1000, 1000]; % 2 STD for random initialization of particles
 spillLocation.n_Heights   = length(spillLocation.Heights);
 % Model domain
-ModelConfig.domainLimits = [-92,-80, 25, 31]; % [-88.6, -88.2, 28.71, 28.765]
+ModelConfig.domainLimits = [-98,-80, 18, 31]; % [-88.6, -88.2, 28.71, 28.765]
 
 % Runge-Kutta method: 2 | 4
 ModelConfig.RungeKutta = 4;
@@ -26,11 +26,10 @@ ModelConfig.RungeKutta = 4;
 ModelConfig.particlesPerBarrel  = 100;
 
 %Turbulent-diffusion parameter per height 
-ModelConfig.TurbDiff_b          = 2;
-
+ModelConfig.TurbDiff_b          = 0.39; 
 %-Wind files (time step in hours) 
 WindFile.timeStep_hrs  = 3;
-
+WindFile.timeStep_hrs_U10 = 1;
 % Lagrangian time step (h)
 LagrTimeStep.InHrs = 1;
 %-------------- Visualization (mapping particles positions) --------------%
@@ -69,17 +68,20 @@ vis_maps.colors_ByComponent   = {...
   [0.4940    0.1840    0.5560]};   % purple
 %---------------------------- Saving options -----------------------------%
 % Data
-saving.Data_on                   = 0;
-saving.Data_step_hr              = 24;
+saving.Data_on                   = 1;
+saving.Data_step_hr              = 5;
 % maps_images
-saving.MapsImage_on              = 1;
+saving.MapsImage_on              = 0;
 saving.MapsImage_quality         = '-r100'; % Resolution in dpi
-saving.MapsImage_step_hr         = 24;
-
+saving.MapsImage_step_hr         = 0;
+saving.Ensembles_on              = 0;
+saving.Ensembles_ts              = [4,8,12,18];
+individualSpill= true;
 
 
 % Add local paths 
 run(ModelConfig.LocalPaths);
 % Call model routine 
 tic
-atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving);
+atmosModel(spillTiming,spillLocation,ModelConfig,WindFile,LagrTimeStep, vis_maps, saving,individualSpill);
+toc

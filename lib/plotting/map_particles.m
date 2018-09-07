@@ -8,7 +8,7 @@ if first_time
   [lon_bathy,lat_bathy,depth_bathy] = get_bathymetry(vis_maps);
   % Plot 3D base map
   if vis_maps.threeDim
-    Map_fig3D = figure;
+    Map_fig3D = figure('visible', 'off');
     surf(lon_bathy,lat_bathy,depth_bathy);shading flat
     axis(vis_maps.boundaries)
     view(vis_maps.threeDim_angles)
@@ -38,7 +38,7 @@ if first_time
   end
   % Plot 2D base maps
   if vis_maps.twoDim
-    Map_fig2D = figure;
+    Map_fig2D = figure('visible', 'off');
     pcolor(lon_bathy,lat_bathy,depth_bathy);shading flat
     axis(vis_maps.boundaries(1:4))
     view([0,90])
@@ -122,10 +122,13 @@ if vis_maps.twoDim
       lat_idx = find(ensemble_grid.lat <= Particles.Lat(parts_cicle),1,'first');
       lon_idx = find(ensemble_grid.lon <= Particles.Lon(parts_cicle),1,'last');
         ensemble_grid.count(lat_idx,lon_idx,depth_cicle) = ...
-          nansum([ensemble_grid.count(lat_idx,lon_idx,depth_cicle);1]);
+          nansum([ensemble_grid.count(lat_idx,lon_idx,depth_cicle);1]);      
     end
- 
-    % Plot spill location
+    if saving.Ensembles_on && ...
+        (ismember(ts-1, saving.Ensembles_ts) || first_time)
+       save(strcat(outputFolder.Main,'MapsImage/',dateHour_str), 'ensemble_grid')
+    end
+        % Plot spill location
     plot(spillLocation.Lon,spillLocation.Lat,'s','color',vis_maps.colors_SpillLocation,...
       'MarkerSize',vis_maps.markerSize)
     % Visualize
@@ -135,7 +138,7 @@ if vis_maps.twoDim
     end
     % Save image
     if saving.MapsImage_on && ...
-        (rem(ts,saving.MapsImage_step_ts) == 0)
+        (rem(ts,vis_maps.visible_step_ts) == 0 || first_time)
       img_name = strrep(img_name,' ','_');
       img_name = regexprep(img_name,'[()]','');
       export_fig(Map_fig2D,[outputFolder.MapsImage,img_name],...
@@ -146,7 +149,7 @@ if vis_maps.twoDim
 if final_time && vis_maps.twoDim
   %---------------------------- Ensemble maps ----------------------------%
   % Plot base ensemble map
-  ensembleMaps = figure;
+  ensembleMaps = figure('visible','off');
   [lon_bathy,lat_bathy,depth_bathy] = get_bathymetry(vis_maps);
   contour(lon_bathy,lat_bathy,depth_bathy,vis_maps.isobaths,'k','linewidth',2)
   axis(vis_maps.boundaries(1:4))
@@ -169,7 +172,7 @@ if final_time && vis_maps.twoDim
   hold on
   for depth_cicle = 1:spillLocation.n_Heights
     max_val = max(max(max(ensemble_grid.count(:,:,depth_cicle,:),[],4)));
-    caxis([1,max_val*.02])
+    caxis(log([1,max_val*.1]))
     img_name = [num2str(spillLocation.Heights(depth_cicle)),'m'];
     title(img_name)
     hpc = pcolor(ensemble_grid.lon,ensemble_grid.lat,...

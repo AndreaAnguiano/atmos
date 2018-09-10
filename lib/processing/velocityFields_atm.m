@@ -157,11 +157,19 @@ day_DoM = day(date_time, 'dayofmonth');
     WindFile.U_T1 = WindFile.U_T2;
     WindFile.V_T1 = WindFile.V_T2;
     if count == 8
-        readWindFile = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM+1,'%02d'),WindFile.Sufix];
-        WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,1],...
-      [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
-        WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,1],...
-      [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+        if day_DoM+1 >= eomday(str2num(year_str),month_MoY)
+            readWindFile = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY+1, '%02d'),'-',num2str(1,'%02d'),WindFile.Sufix];
+            WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,1],...
+          [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
+            WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,1],...
+          [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+        else
+            readWindFile = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM+1,'%02d'),WindFile.Sufix];
+            WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,1],...
+          [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
+            WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,1],...
+          [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+        end
     else
         WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,count+1],...
           [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);

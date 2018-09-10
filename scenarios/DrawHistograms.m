@@ -21,13 +21,13 @@ cbarTicks =[0:.5:8];
 cbarTicksLabels = cellstr(strsplit(num2str(cbarTicks)))
 
     for height_cicle = 1:length(Heights)
-        max_val = max(max(max(data(:,:,height_cicle,:),[],4)));;
-        caxis(log([1,max_val*.1]))
+        max_val = max(max(max(data(:,:,height_cicle,:),[],4)));
+        caxis(log([1,100*0.1]))
         img_name = [num2str(Heights(height_cicle)),'m'];
         title(img_name);
         %title('Surface oil, 3^{rd} oil component');
         hpc = pcolor(lon,lat,data(:,:,height_cicle)); shading flat;
-        uistack(hpc,'top');
+        uistack(hpc,'bottom');
         cm = colormap(palette);
         colorbar('Ticks',cbarTicks,'TickLabels',cbarTicksLabels);
         export_fig(ensembleMaps,[outputFolder,img_name],'-png','-nocrop',saving_quality)

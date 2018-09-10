@@ -3,12 +3,12 @@ close all; clear; clc; format compact; clc
 ModelConfig.LocalPaths = 'local_paths_atm.m';
 
 % Output directorie 
-ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/prueba11/';
+ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/prueba12/';
 
 % Spill timing (yyyy,mm,dd)
-spillTiming.startDay_date     = [2010,01,01]; % [2010,04,22]
-spillTiming.lastSpillDay_date = [2010,01,30]; % [2010,07,14]
-spillTiming.endSimDay_date    = [2010,01,30]; % [2010,07,30]
+spillTiming.startDay_date     = [2010,01,31]; % [2010,04,22]
+spillTiming.lastSpillDay_date = [2010,02,01]; % [2010,07,14]
+spillTiming.endSimDay_date    = [2010,02,01]; % [2010,07,30]
 
 % Spill location 
 spillLocation.Lat      = 	25.97096444; %  28.738
@@ -69,8 +69,8 @@ vis_maps.colors_ByComponent   = {...
   [0.4940    0.1840    0.5560]};   % purple
 %---------------------------- Saving options -----------------------------%
 % Data
-saving.Data_on                   = 1;
-saving.Data_step_hr              = 5;
+saving.Data_on                   = 0;
+saving.Data_step_hr              = 0;
 % maps_images
 saving.MapsImage_on              = 0;
 saving.MapsImage_quality         = '-r100'; % Resolution in dpi

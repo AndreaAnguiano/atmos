@@ -1,9 +1,11 @@
-path = '/home/andrea/matlabcode/outputsAtm/prueba10/Data/';
-file = '2010-01-01_h_12_P1.mat';
-histogram = load(strcat(path,file));
+ModelConfig.LocalPaths = '/home/andrea/matlabcode/atmos/local_paths_atm.m';
+run(ModelConfig.LocalPaths);
+path = '/home/andrea/matlabcode/outputsAtm/scenarios/data/';
+file1 = '2010-01-01_h_18_P1_1.mat';
+histogram = load(strcat(path,file1));
 boundaries = [18 -98 31 -80];
 Heights = [ 1500, 1000, 500, 100, 10];
-outputFolder= '/home/andrea/matlabcode/outputsAtm/newtest/test7/Scenarios/d4/';
+outputFolder= '/home/andrea/matlabcode/outputsAtm/scenarios/';
 palette = [1	1	1
 0.901960790157318	1	0.882352948188782
 0.784313738346100	1	0.745098054409027

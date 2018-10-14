@@ -1,4 +1,4 @@
-function ensemble = main_scen(startDate, endDate, dataPath,codePath,outputPath, saveFigTimeStep, modelTimeStep, domainLimits, RungeKutta, particlesPerBarrel, TurbDiff, heights, coords, windFileTS, vis_maps, saving, individualSpill, years)
+function ensemble = main_scen(startDate, endDate, dataPath,codePath,outputPath, saveFigTimeStep, modelTimeStep, domainLimits, RungeKutta, particlesPerBarrel, TurbDiff, heights, coords, windFileTS, vis_maps, saving, individualSpill, years, month)
 
 %------ spill timing -----------
 spillTiming.startDay_date     = startDate; % [2010,04,22]
@@ -39,10 +39,10 @@ datetemp = datenum(spillTiming.startDay_date);
 
     for year = 1:ModelConfig.n_years
         strtemp = 1;
-        while datetemp < datenum([ModelConfig.years(year),01,03])
+        while datetemp < datenum([ModelConfig.years(year),month+1,01])
             vecdate = datevec(datetemp);
             spillTiming.startDay_date = [vecdate(1),vecdate(2),vecdate(3)];
-            spillTiming.lastSpillDay_date = [vecdate(1),vecdate(2),vecdate(3)+1];
+            spillTiming.lastSpillDay_date = [vecdate(1),vecdate(2),vecdate(3)+2];
             spillTiming.endSimDay_date = spillTiming.lastSpillDay_date;
             spillLocation.Lat = spillLocation.positions(1,2);
             spillLocation.Lon = -spillLocation.positions(1);

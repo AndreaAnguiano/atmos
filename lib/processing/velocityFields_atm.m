@@ -7,12 +7,12 @@ day_DoY = day(date_time,'dayofyear');
 year_str = datestr(date_time,'yyyy');
 month_MoY = month(date_time, 'monthofyear');
 day_DoM = day(date_time, 'dayofmonth');
+WindFile.Sufix = strcat('_00:00:00.',year_str);
 %--------------------------Get wind VectorFields--------------------------%
   if first_time
     % Wind file names and varible names
     WindFile.Prefix3h = 'wrfout_c3h_d01_';
     WindFile.Prefix1h = 'wrfout_c1h_d01_';
-    WindFile.Sufix = strcat('_00:00:00.',year_str);
     WindFile.Uname = 'U';
     WindFile.Vname = 'V';
     WindFile.Wname = 'W';
@@ -22,7 +22,7 @@ day_DoM = day(date_time, 'dayofmonth');
     ModelConfig.cont = 1;
     % Define variables
     firstFileName3H = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];
-    coordFileName =  'wrfout_c15d_d01_2010-01-01_00_00_00.2010';
+    coordFileName =  'wrfout_c15d_d01_2010-01-01_00:00:00.2010';
     
     if ismember(10, spillLocation.Heights)
         firstFileName1H = [WindFile.Prefix1h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];        
@@ -112,11 +112,25 @@ day_DoM = day(date_time, 'dayofmonth');
     WindFile.U10_T1 = WindFile.U10_T2;
     WindFile.V10_T1 = WindFile.V10_T2;
     if ts == 24
-        readWindFile = [WindFile.Prefix1h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM+1,'%02d'),WindFile.Sufix];
-        WindFile.U10_T2 = ncread(readWindFile,'U10',[WindFile.U10Lon_min,WindFile.U10Lat_min,1],[WindFile.U10Lon_numel,WindFile.U10Lat_numel,1]);
-        WindFile.V10_T2 = ncread(readWindFile,'U10',[WindFile.U10Lon_min,WindFile.U10Lat_min,1],[WindFile.U10Lon_numel,WindFile.U10Lat_numel,1]);
-        WindFile.U10_T2 = permute(WindFile.U10_T2,[2 1 3]);
-        WindFile.V10_T2 = permute(WindFile.V10_T2,[2 1 3]);
+        if day_DoM+1 >= eomday(str2num(year_str),month_MoY)
+            readWindFile = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY+1, '%02d'),'-',num2str(1,'%02d'),WindFile.Sufix];
+            if month_MoY+1 > 12
+                readWindFile = [WindFile.Prefix3h,num2str(str2num(year_str)+1, '%02d'),'-',num2str(1, '%02d'),'-',num2str(1,'%02d'),strcat('_00:00:00.',num2str(str2num(year_str)+1, '%02d'))];
+            end
+            WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,1],...
+          [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
+            WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,1],...
+          [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+            WindFile.U_T2 = permute(WindFile.U_T2,[2 1 3]);
+            WindFile.V_T2 = permute(WindFile.V_T2,[2 1 3]);
+
+        else
+            readWindFile = [WindFile.Prefix1h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM+1,'%02d'),WindFile.Sufix];
+            WindFile.U10_T2 = ncread(readWindFile,'U10',[WindFile.U10Lon_min,WindFile.U10Lat_min,1],[WindFile.U10Lon_numel,WindFile.U10Lat_numel,1]);
+            WindFile.V10_T2 = ncread(readWindFile,'U10',[WindFile.U10Lon_min,WindFile.U10Lat_min,1],[WindFile.U10Lon_numel,WindFile.U10Lat_numel,1]);
+            WindFile.U10_T2 = permute(WindFile.U10_T2,[2 1 3]);
+            WindFile.V10_T2 = permute(WindFile.V10_T2,[2 1 3]);
+        end
     else
         readWindU10File = [WindFile.Prefix1h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM,'%02d'),WindFile.Sufix];
         WindFile.U10_T2 =  ncread(readWindU10File,'U10',[WindFile.U10Lon_min,WindFile.U10Lat_min,ts],[WindFile.U10Lon_numel,WindFile.U10Lat_numel,1]);
@@ -159,25 +173,34 @@ day_DoM = day(date_time, 'dayofmonth');
     if count == 8
         if day_DoM+1 >= eomday(str2num(year_str),month_MoY)
             readWindFile = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY+1, '%02d'),'-',num2str(1,'%02d'),WindFile.Sufix];
+            if month_MoY+1 > 12
+                readWindFile = [WindFile.Prefix3h,num2str(str2num(year_str)+1, '%02d'),'-',num2str(1, '%02d'),'-',num2str(1,'%02d'),strcat('_00:00:00.',num2str(str2num(year_str)+1, '%02d'))];
+            end
             WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,1],...
           [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
             WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,1],...
           [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+            WindFile.U_T2 = permute(WindFile.U_T2,[2 1 3]);
+            WindFile.V_T2 = permute(WindFile.V_T2,[2 1 3]);
         else
             readWindFile = [WindFile.Prefix3h,year_str,'-',num2str(month_MoY, '%02d'),'-',num2str(day_DoM+1,'%02d'),WindFile.Sufix];
             WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,1],...
           [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
             WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,1],...
           [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+            WindFile.U_T2 = permute(WindFile.U_T2,[2 1 3]);
+            WindFile.V_T2 = permute(WindFile.V_T2,[2 1 3]);
         end
+        
     else
         WindFile.U_T2 = ncread(readWindFile,WindFile.Uname,[WindFile.ULon_min,WindFile.ULat_min,WindFile.n_Plevels,count+1],...
           [WindFile.Ulon_numel,WindFile.Ulat_numel,WindFile.n_Plevels,1]);
         WindFile.V_T2 = ncread(readWindFile,WindFile.Vname,[WindFile.VLon_min,WindFile.VLat_min,WindFile.n_Plevels,count+1],...
           [WindFile.Vlon_numel,WindFile.Vlat_numel,WindFile.n_Plevels,1]);
+            WindFile.U_T2 = permute(WindFile.U_T2,[2 1 3]);
+            WindFile.V_T2 = permute(WindFile.V_T2,[2 1 3]);
     end
-    WindFile.U_T2 = permute(WindFile.U_T2,[2 1 3]);
-    WindFile.V_T2 = permute(WindFile.V_T2,[2 1 3]);
+    
 
    end
   end
@@ -206,4 +229,3 @@ velocities.Vts2 = WindFile.V_T1 + TimeDiff_plus_TS .* wind_V_factor;
  
 
 end
-

@@ -107,7 +107,7 @@ for SerialDay = spillTiming.startDay_serial:spillTiming.endSimDay_serial
     
     if saving.Ensembles_on && ismember(ts-1, saving.Ensembles_ts)
       file_name = strrep(dateHour_str,' ','_');
-      save([outputFolder.Data,file_name,'_','P',num2str(spillLocation.Point),'_',num2str(strtemp)],'ensemble_grid')
+      save([outputFolder.Data,file_name,'_','P',num2str(spillLocation.Point),'_',num2str(strtemp+27)],'ensemble_grid')
     
     end
     %}

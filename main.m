@@ -6,9 +6,9 @@ ModelConfig.LocalPaths = 'local_paths_atm.m';
 ModelConfig.OutputDir = '/home/andrea/matlabcode/outputsAtm/prueba12/';
 
 % Spill timing (yyyy,mm,dd)
-spillTiming.startDay_date     = [2010,01,31]; % [2010,04,22]
-spillTiming.lastSpillDay_date = [2010,02,01]; % [2010,07,14]
-spillTiming.endSimDay_date    = [2010,02,01]; % [2010,07,30]
+spillTiming.startDay_date     = [2010,12,31]; % [2010,04,22]
+spillTiming.lastSpillDay_date = [2011,01,04]; % [2010,07,14]
+spillTiming.endSimDay_date    = [2011,01,04]; % [2010,07,30]
 
 % Spill location 
 spillLocation.Lat      = 	25.97096444; %  28.738

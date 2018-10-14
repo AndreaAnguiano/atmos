@@ -1,9 +1,9 @@
 ModelConfig.LocalPaths = '/home/andrea/matlabcode/atmos/local_paths_atm.m';
 run(ModelConfig.LocalPaths);
-path = '/home/andrea/matlabcode/outputsAtm/scenarios/data/';
-file1 = '2010-01-01_h_18_P1_1.mat';
+path = '/home/andrea/matlabcode/';
+file1 = '2010-01-31_h_20_P5_29.mat';
 histogram = load(strcat(path,file1));
-boundaries = [18 -98 31 -80];
+boundaries = [16.5 -99.53 32.5 -78.5];
 Heights = [ 1500, 1000, 500, 100, 10];
 outputFolder= '/home/andrea/matlabcode/outputsAtm/scenarios/';
 palette = [1	1	1
@@ -22,7 +22,7 @@ palette = [1	1	1
 0.627451002597809	0.549019634723663	1
 0.501960813999176	0.439215689897537	0.921568632125855
 0	0	1];
-ts = [4,8,12,18];
+ts = [4,10,12,18];
 DrawHistograms(histogram, boundaries, Heights, outputFolder, palette, '-r100',ts)
 
 
